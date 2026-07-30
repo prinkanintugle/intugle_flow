@@ -1,21 +1,24 @@
 <!-- markdownlint-disable MD030 -->
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./docs/static/img/langflow-logo-color-blue-bg.svg">
-  <img src="./docs/static/img/langflow-logo-color-black-solid.svg" alt="Langflow logo">
-</picture>
+<h1 align="center">Intugle Flow</h1>
 
-[![Release Notes](https://img.shields.io/github/release/langflow-ai/langflow?style=flat-square)](https://github.com/langflow-ai/langflow/releases)
-[![PyPI - License](https://img.shields.io/badge/license-MIT-orange)](https://opensource.org/licenses/MIT)
-[![PyPI - Downloads](https://img.shields.io/pypi/dm/langflow?style=flat-square)](https://pypistats.org/packages/langflow)
-[![Twitter](https://img.shields.io/twitter/url/https/twitter.com/langflow-ai.svg?style=social&label=Follow%20%40Langflow)](https://twitter.com/langflow_ai)
-[![YouTube Channel](https://img.shields.io/youtube/channel/subscribers/UCn2bInQrjdDYKEEmbpwblLQ?label=Subscribe)](https://www.youtube.com/@Langflow)
-[![Discord Server](https://img.shields.io/discord/1116803230643527710?logo=discord&style=social&label=Join)](https://discord.gg/EqksyE2EX9)
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/langflow-ai/langflow)
+<p align="center">
+  <em>A powerful platform for building and deploying AI-powered agents and workflows.</em>
+</p>
 
-[Langflow](https://langflow.org) is a powerful platform for building and deploying AI-powered agents and workflows. It provides developers with both a visual authoring experience and built-in API and MCP servers that turn every workflow into a tool that can be integrated into applications built on any framework or stack. Langflow comes with batteries included and supports all major LLMs, vector databases and a growing library of AI tools.
+---
 
-## ✨ Highlight features
+## About
+
+**Intugle Flow** is a distribution of the open-source **Langflow** platform, rebranded and packaged for the Intugle ecosystem. It provides both a visual authoring experience and a built-in API and MCP server that turns every workflow into a tool that can be integrated into applications built on any framework or stack.
+
+Intugle Flow ships with batteries included and supports all major LLMs, vector databases, and a growing library of AI tools.
+
+> Intugle Flow is a derivative work of **[Langflow](https://github.com/langflow-ai/langflow)** (Copyright © 2024 Langflow contributors), licensed under the MIT License. The original `LICENSE` file is preserved unchanged at the root of this repository. See [`NOTICE.md`](./NOTICE.md) for the full attribution and a complete list of modifications made in this distribution.
+
+---
+
+## ✨ Highlights
 
 - **Visual builder interface** to quickly get started and iterate.
 - **Source code access** lets you customize any component using Python.
@@ -23,82 +26,112 @@
 - **Multi-agent orchestration** with conversation management and retrieval.
 - **Deploy as an API** or export as JSON for Python apps.
 - **Deploy as an MCP server** and turn your flows into tools for MCP clients.
-- **Observability** with LangSmith, LangFuse and other integrations.
+- **Observability** with LangSmith, LangFuse, and other integrations.
 - **Enterprise-ready** security and scalability.
-
-## 🖥️  Langflow Desktop
-
-Langflow Desktop is the easiest way to get started with Langflow. All dependencies are included, so you don't need to manage Python environments or install packages manually.
-Available for Windows and macOS.
-
-[📥 Download Langflow Desktop](https://www.langflow.org/desktop)
-
-## ⚡️ Quickstart
-
-### Install locally (recommended)
-
-Requires Python 3.10–3.14 and [uv](https://docs.astral.sh/uv/getting-started/installation/) (recommended package manager).
-
-#### Install
-
-From a fresh directory, run:
-```shell
-uv pip install langflow -U
-```
-
-The latest Langflow package is installed.
-For more information, see [Install and run the Langflow OSS Python package](https://docs.langflow.org/get-started-installation#install-and-run-the-langflow-oss-python-package).
-
-#### Run
-
-To start Langflow, run:
-```shell
-uv run langflow run
-```
-
-Langflow starts at http://127.0.0.1:7860.
-
-That's it! You're ready to build with Langflow! 🎉
-
-## 📦 Other install options
-
-### Run from source
-If you've cloned this repository and want to contribute, run this command from the repository root:
-```shell
-make run_cli
-```
-For more information, see [DEVELOPMENT.md](./DEVELOPMENT.md).
-
-### Docker
-Start a Langflow container with default settings:
-```shell
-docker run -p 7860:7860 langflowai/langflow:latest
-```
-Langflow is available at http://localhost:7860/.
-For configuration options, see the [Docker deployment guide](https://docs.langflow.org/deployment-docker).
-
-## 🛡️ Security
-
-For security information, see our [Security Policy](./SECURITY.md).
-
-## 🚀 Deployment
-
-Langflow is completely open source and you can deploy it to all major deployment clouds. To learn how to deploy Langflow, see our [Langflow deployment guides](https://docs.langflow.org/deployment-overview).
-
-## ⭐ Stay up-to-date
-
-Star Langflow on GitHub to be instantly notified of new releases.
-
-![Star Langflow](https://github.com/user-attachments/assets/03168b17-a11d-4b2a-b0f7-c1cce69e5a2c)
-
-## 👋 Contribute
-
-We welcome contributions from developers of all levels. If you'd like to contribute, please check our [contributing guidelines](./CONTRIBUTING.md) and help make Langflow more accessible.
 
 ---
 
-[![Star History Chart](https://api.star-history.com/svg?repos=langflow-ai/langflow&type=Timeline)](https://star-history.com/#langflow-ai/langflow&Date)
+## ⚡️ Quickstart
 
-## ❤️ Contributors
+Intugle Flow retains 100% of the runtime, API, and CLI behavior of upstream Langflow 1.11. All standard install and run methods work unchanged.
+
+### Requirements
+
+- **Python** 3.10 – 3.14
+- **Node.js** 20.19 or newer, and **npm** 10.9 or newer (for building the frontend from source)
+- **[uv](https://docs.astral.sh/uv/getting-started/installation/)** — Python package manager (recommended)
+
+### Option 1 — Run from source (recommended for this repo)
+
+From the repository root:
+
+```bash
+make run_cli
+```
+
+This installs backend and frontend dependencies, builds the frontend, and starts the app.
+
+Once running, open **http://127.0.0.1:7860** in your browser.
+
+### Option 2 — Development mode with hot reload
+
+In two separate terminals:
+
+```bash
+# Terminal 1 — backend
+make backend
+```
+
+```bash
+# Terminal 2 — frontend
+make frontend
+```
+
+Backend runs on `http://127.0.0.1:7860`, frontend dev server on `http://127.0.0.1:3000` with an API proxy.
+
+### Option 3 — Docker
+
+The underlying container images are the upstream Langflow images:
+
+```bash
+docker run -p 7860:7860 langflowai/langflow:latest
+```
+
+Available at http://localhost:7860/.
+
+### Option 4 — Install as a Python package
+
+```bash
+uv pip install langflow -U
+uv run langflow run
+```
+
+> ℹ️ The published pip package name and CLI command remain `langflow` (and `langflow run`) to preserve upstream compatibility, security patch upgrade paths, and MCP client configurations already deployed in the field. Only the user-visible product name has been changed to Intugle Flow.
+
+---
+
+## 🧭 Repository Layout
+
+```
+.
+├── src/
+│   ├── backend/            # FastAPI application (langflow-base package)
+│   ├── frontend/           # React + Vite + xyflow visual canvas UI
+│   ├── lfx/                # Core execution engine (graph runtime, components)
+│   ├── bundles/            # 21 vendor-specific integration bundles
+│   ├── sdk/                # Python SDK
+│   └── langflow-stepflow/  # Step-by-step flow execution
+├── docs/                   # Docusaurus documentation site
+├── deploy/                 # docker-compose + observability
+├── docker/                 # Dockerfiles (dev, base, ep, cdk, render, ...)
+├── scripts/                # Utility scripts
+├── DESIGN.md               # Full design system spec
+├── DEVELOPMENT.md          # Contributor setup guide
+├── LICENSE                 # MIT License (upstream Langflow, preserved)
+├── NOTICE.md               # Attribution + list of modifications
+└── README.md               # This file
+```
+
+---
+
+## 🛡️ Security
+
+For security information, see [`SECURITY.md`](./SECURITY.md).
+
+## 🚀 Deployment
+
+Intugle Flow can be deployed to all major cloud providers using the standard Langflow deployment paths (Docker, Render, Kubernetes, IBM watsonx, AWS, etc.). See the [Docker deployment guide](https://docs.langflow.org/deployment-docker) for reference.
+
+## 📄 License
+
+MIT License — see [`LICENSE`](./LICENSE). Intugle Flow is a derivative work of Langflow; see [`NOTICE.md`](./NOTICE.md) for full attribution.
+
+## 👋 Contributing to the upstream project
+
+If you'd like to contribute improvements that should benefit the whole community, we encourage you to send them upstream to the original Langflow project: https://github.com/langflow-ai/langflow
+
+## ❤️ Credits
+
+Intugle Flow stands entirely on the shoulders of the **Langflow** project and its contributors — thank you.
 
 [![langflow contributors](https://contrib.rocks/image?repo=langflow-ai/langflow)](https://github.com/langflow-ai/langflow/graphs/contributors)

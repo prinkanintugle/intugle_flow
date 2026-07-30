@@ -72,7 +72,7 @@ try:
     from lfx.cli.commands import serve_command
     from lfx.cli.run import run as lfx_run
 
-    lfx_app = typer.Typer(name="lfx", help="Langflow Executor commands")
+    lfx_app = typer.Typer(name="lfx", help="Intugle Flow Executor commands")
     lfx_app.command(name="serve", help="Serve a flow as an API", no_args_is_help=True)(serve_command)
     lfx_app.command(name="run", help="Run a flow directly", no_args_is_help=True)(lfx_run)
 
@@ -403,7 +403,7 @@ def run(
     ),
     ssl_key_file_path: str | None = typer.Option(None, help="Defines the SSL key file path.", show_default=False),
 ) -> None:
-    """Run Langflow."""
+    """Run Intugle Flow."""
     if env_file:
         if is_settings_service_initialized():
             err = (
@@ -803,17 +803,17 @@ def print_banner(host: str, port: int, protocol: str) -> None:
     )
     telemetry_text = (
         (
-            "We collect anonymous usage data to improve Langflow.\n"
+            "We collect anonymous usage data to improve Intugle Flow.\n"
             "To opt out, set: [bold]DO_NOT_TRACK=true[/bold] in your environment."
         )
         if os.getenv("DO_NOT_TRACK", os.getenv("LANGFLOW_DO_NOT_TRACK", "False")).lower() != "true"
         else (
-            "We are [bold]not[/bold] collecting anonymous usage data to improve Langflow.\n"
+            "We are [bold]not[/bold] collecting anonymous usage data to improve Intugle Flow.\n"
             "To contribute, set: [bold]DO_NOT_TRACK=false[/bold] in your environment."
         )
     )
     access_host = get_best_access_host(host, port)
-    access_link = f"[bold]{status_icon} Open Langflow {arrow}[/bold] [link={protocol}://{access_host}:{port}]{protocol}://{access_host}:{port}[/link]"
+    access_link = f"[bold]{status_icon} Open Intugle Flow {arrow}[/bold] [link={protocol}://{access_host}:{port}]{protocol}://{access_host}:{port}[/link]"
 
     message = f"{title}\n{info_text}\n\n{telemetry_text}\n\n{access_link}"
 
@@ -828,7 +828,7 @@ def print_banner(host: str, port: int, protocol: str) -> None:
             "* GitHub: https://github.com/langflow-ai/langflow\n"
             "# Discord: https://discord.com/invite/EqksyE2EX9\n\n"
             f"{telemetry_text}\n\n"
-            f"[OK] Open Langflow -> {protocol}://{access_host}:{port}"
+            f"[OK] Open Intugle Flow -> {protocol}://{access_host}:{port}"
         )
         try:
             console.print()  # Add line break before fallback banner
@@ -838,7 +838,7 @@ def print_banner(host: str, port: int, protocol: str) -> None:
             logger.info(f"Welcome to {package_name}")
             logger.info("GitHub: https://github.com/langflow-ai/langflow")
             logger.info("Discord: https://discord.com/invite/EqksyE2EX9")
-            logger.info(f"Open Langflow: {protocol}://{access_host}:{port}")
+            logger.info(f"Open Intugle Flow: {protocol}://{access_host}:{port}")
 
 
 @app.command()
@@ -973,6 +973,33 @@ async def _create_superuser(username: str, password: str, auth_token: str | None
         else:
             logger.error(f"SECURITY AUDIT: Failed attempt to create superuser '{username}' via CLI")
             typer.echo("Superuser creation failed.")
+
+
+@app.command(name="migrate-mcp")
+def migrate_mcp(
+    log_level: str = typer.Option("info", help="Logging level.", envvar="LANGFLOW_LOG_LEVEL"),
+    dry_run: bool = typer.Option(default=False, help="Report what would be imported without writing."),  # noqa: FBT001
+) -> None:
+    """Import existing per-user MCP config files (_mcp_servers_<id>.json) into the mcp_server table.
+
+    This also runs automatically on startup; use this command to run or preview it on demand.
+    It is idempotent and never deletes the legacy files.
+    """
+    configure(log_level=log_level)
+    asyncio.run(_migrate_mcp(dry_run=dry_run))
+
+
+async def _migrate_mcp(*, dry_run: bool) -> None:
+    from langflow.api.utils.mcp.backfill import backfill_mcp_servers_from_files
+
+    await initialize_services()
+    async with session_scope() as session:
+        summary = await backfill_mcp_servers_from_files(session, dry_run=dry_run)
+    verb = "would import" if dry_run else "imported"
+    typer.echo(
+        f"MCP migration complete: {verb} {summary['imported']} server(s) across "
+        f"{summary['users']} user(s) (skipped {summary['skipped']}, errors {summary['errors']})."
+    )
 
 
 # command to copy the langflow database from the cache to the current directory

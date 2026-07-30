@@ -12,9 +12,9 @@ const isProduction = process.env.NODE_ENV === "production";
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: "Langflow Documentation",
+  title: "Intugle Flow Documentation",
   tagline:
-    "Langflow is a low-code app builder for RAG and multi-agent AI applications.",
+    "Intugle Flow is a low-code app builder for RAG and multi-agent AI applications.",
   favicon: "img/favicon.ico",
   url: "https://docs.langflow.org",
   baseUrl: process.env.BASE_URL ? process.env.BASE_URL : "/",
@@ -113,15 +113,19 @@ const config = {
           sidebarPath: require.resolve("./sidebars.js"), // Use sidebars.js file
           sidebarCollapsed: true,
           // Versioning configuration
-          lastVersion: "1.10.0",
+          lastVersion: "1.11.0",
           versions: {
             current: {
-              label: "1.11.x (Next)",
+              label: "1.12.x (Next)",
               path: "next",
+            },
+            "1.11.0": {
+              label: "1.11.x",
+              path: "",
             },
             "1.10.0": {
               label: "1.10.x",
-              path: "",
+              path: "1.10.0",
             },
             "1.9.0": {
               label: "1.9.x",
@@ -454,7 +458,14 @@ const config = {
             from: [
               "/directory",
               "/text-input-and-output",
+              "/data-operations",
+              "/dataframe-operations",
+              "/text-operations",
             ]
+          },
+          {
+            to: "/api-keys-and-authentication",
+            from: "/jwt-authentication",
           },
           // add more redirects like this
           // {

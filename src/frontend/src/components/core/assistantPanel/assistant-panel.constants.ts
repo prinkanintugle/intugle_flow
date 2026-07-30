@@ -1,7 +1,7 @@
 import i18n from "@/i18n";
 import type { AssistantSuggestion } from "./assistant-panel.types";
 
-export const ASSISTANT_TITLE = "Langflow Assistant";
+export const ASSISTANT_TITLE = "Intugle Flow Assistant";
 
 export const ASSISTANT_SESSION_STORAGE_KEY_PREFIX =
   "langflow-assistant-session-";

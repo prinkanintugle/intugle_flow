@@ -7,23 +7,23 @@ import {
 import { customDefaultShortcuts } from "../customization/constants";
 import type { languageMap } from "../types/components";
 
+declare const __LANGFLOW_ACCESS_TOKEN_EXPIRE_SECONDS__: string | number;
+declare const __LANGFLOW_AUTO_LOGIN__: string | boolean;
+
 export const DEFAULT_SESSION_NAME = "Default Session";
 export const NEW_SESSION_NAME = "New Session";
 export const SLIDING_TRANSITION_MS = 300;
 
 const getEnvVar = <T = string | undefined>(
   key: string,
+  viteValue: T | undefined,
   defaultValue?: T,
 ): T | undefined => {
-  if (typeof process !== "undefined" && process.env) {
-    return (process.env[key] as T) ?? defaultValue;
-  }
-  try {
-    const value = new Function(`return import.meta.env?.${key}`)() as T;
-    return value ?? defaultValue;
-  } catch {
-    return defaultValue;
-  }
+  const processValue =
+    typeof process !== "undefined" && process.env
+      ? (process.env[key] as T | undefined)
+      : undefined;
+  return processValue ?? viteValue ?? defaultValue;
 };
 
 /**
@@ -168,7 +168,7 @@ export const EDIT_DIALOG_SUBTITLE =
  * @constant
  */
 export const CODE_PROMPT_DIALOG_SUBTITLE =
-  "Edit your Python code snippet. Refer to the Langflow documentation for more information on how to write your own component.";
+  "Edit your Python code snippet. Refer to the Intugle Flow documentation for more information on how to write your own component.";
 
 export const CODE_DICT_DIALOG_SUBTITLE =
   "Customize your dictionary, adding or editing key-value pairs as needed. Supports adding new objects {} or arrays [].";
@@ -267,13 +267,13 @@ export const DESCRIPTIONS: string[] = [
   "Your Hub for Text Generation.",
   "Promptly Ingenious!",
   "Building Linguistic Labyrinths.",
-  "Langflow: Create, Chain, Communicate.",
+  "Intugle Flow: Create, Chain, Communicate.",
   "Connect the Dots, Craft Language.",
   "Interactive Language Weaving.",
   "Generate, Innovate, Communicate.",
   "Conversation Catalyst Engine.",
   "Language Chainlink Master.",
-  "Design Dialogues with Langflow.",
+  "Design Dialogues with Intugle Flow.",
   "Nurture NLP Nodes Here.",
   "Conversational Cartography Unlocked.",
   "Design, Develop, Dialogize.",
@@ -637,6 +637,7 @@ export const CONTROL_INPUT_STATE = {
 };
 
 export const CONTROL_PATCH_USER_STATE = {
+  currentPassword: "",
   password: "",
   cnfPassword: "",
   profilePicture: "",
@@ -668,7 +669,7 @@ export const TIMEOUT_ERROR_DESCRIPION = "Server is busy.";
 export const SIGN_UP_SUCCESS = "Account created! Await admin activation. ";
 
 export const API_PAGE_PARAGRAPH =
-  "Your secret Langflow API keys are listed below. Do not share your API key with others, or expose it in the browser or other client-side code.";
+  "Your secret Intugle Flow API keys are listed below. Do not share your API key with others, or expose it in the browser or other client-side code.";
 
 export const API_PAGE_USER_KEYS =
   "This user does not have any keys assigned at the moment.";
@@ -694,11 +695,14 @@ export const LANGFLOW_SUPPORTED_TYPES = new Set([
   "slider",
   "tab",
   "sortableList",
+  "actionPicker",
+  "duration",
   "connect",
   "auth",
   "query",
   "mcp",
   "tools",
+  "data_display",
 ]);
 
 export const FLEX_VIEW_TYPES = ["bool"];
@@ -750,7 +754,7 @@ export const INPUT_HANDLER_HOVER = "Avaliable input components:";
 export const OUTPUT_HANDLER_HOVER = "Avaliable output components:";
 export const TEXT_INPUT_MODAL_TITLE = "Inputs";
 export const OUTPUTS_MODAL_TITLE = "Outputs";
-export const LANGFLOW_CHAT_TITLE = "Langflow Chat";
+export const LANGFLOW_CHAT_TITLE = "Intugle Flow Chat";
 export const CHAT_INPUT_PLACEHOLDER =
   "No chat input variables found. Click to run your flow.";
 export const CHAT_INPUT_PLACEHOLDER_SEND = "Send a message...";
@@ -758,9 +762,9 @@ export const EDIT_CODE_TITLE = "Edit Code";
 export const MY_COLLECTION_DESC =
   "Manage your projects. Download and upload entire collections.";
 export const STORE_DESC = "Explore community-shared flows and components.";
-export const STORE_TITLE = "Langflow Store";
+export const STORE_TITLE = "Intugle Flow Store";
 export const NO_API_KEY = "You don't have an API key.";
-export const INSERT_API_KEY = "Insert your Langflow API key.";
+export const INSERT_API_KEY = "Insert your Intugle Flow API key.";
 export const INVALID_API_KEY = "Your API key is not valid. ";
 export const CREATE_API_KEY = `Don't have an API key? Sign up at`;
 export const STATUS_BUILD = "Build to validate status.";
@@ -877,9 +881,19 @@ export const LANGFLOW_AUTO_LOGIN_OPTION = "auto_login_lf";
 export const LANGFLOW_REFRESH_TOKEN = "refresh_token_lf";
 
 export const LANGFLOW_ACCESS_TOKEN_EXPIRE_SECONDS = 60 * 60 - 60 * 60 * 0.1;
+const viteAccessTokenExpireSeconds =
+  typeof __LANGFLOW_ACCESS_TOKEN_EXPIRE_SECONDS__ === "undefined"
+    ? undefined
+    : __LANGFLOW_ACCESS_TOKEN_EXPIRE_SECONDS__;
+const configuredAccessTokenExpireSeconds = Number(
+  getEnvVar<string | number>(
+    "ACCESS_TOKEN_EXPIRE_SECONDS",
+    viteAccessTokenExpireSeconds,
+    60 * 60,
+  ),
+);
 export const LANGFLOW_ACCESS_TOKEN_EXPIRE_SECONDS_ENV =
-  Number(getEnvVar("ACCESS_TOKEN_EXPIRE_SECONDS", 60)) -
-  Number(getEnvVar("ACCESS_TOKEN_EXPIRE_SECONDS", 60)) * 0.1;
+  configuredAccessTokenExpireSeconds - configuredAccessTokenExpireSeconds * 0.1;
 export const TEXT_FIELD_TYPES: string[] = ["str", "SecretStr"];
 export const NODE_WIDTH = 384;
 export const NODE_HEIGHT = NODE_WIDTH * 3;
@@ -954,9 +968,16 @@ export const POLLING_MESSAGES = {
 
 export const BUILD_POLLING_INTERVAL = 25;
 
+const viteAutoLogin =
+  typeof __LANGFLOW_AUTO_LOGIN__ === "undefined"
+    ? undefined
+    : __LANGFLOW_AUTO_LOGIN__;
+const autoLoginEnv = getEnvVar<string | boolean>(
+  "LANGFLOW_AUTO_LOGIN",
+  viteAutoLogin,
+);
 export const IS_AUTO_LOGIN =
-  !getEnvVar("LANGFLOW_AUTO_LOGIN") ||
-  String(getEnvVar("LANGFLOW_AUTO_LOGIN"))?.toLowerCase() !== "false";
+  !autoLoginEnv || String(autoLoginEnv).toLowerCase() !== "false";
 
 export const AUTO_LOGIN_RETRY_DELAY = 2000;
 export const AUTO_LOGIN_MAX_RETRY_DELAY = 60000;
