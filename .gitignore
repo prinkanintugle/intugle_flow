@@ -304,3 +304,9 @@ whitesource/
 
 #ai folders
 .bob/
+.env.*
+*.env
+credentials.json
+*.pem
+*.key
+.credentials
