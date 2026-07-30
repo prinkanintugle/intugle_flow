@@ -15,7 +15,7 @@ async def test_get_messages_requires_auth(client: AsyncClient):
 async def test_get_transactions_requires_auth(client: AsyncClient):
     """Test that GET /monitor/transactions requires authentication."""
     # Include required query parameter
-    response = await client.get("api/v1/monitor/transactions?flow_id=00000000-0000-0000-0000-000000000000")
+    response = await client.get("api/v1/monitor/transactions?flow_id=code-explorer-224")
     # Langflow returns 403 for missing/invalid authentication
     assert response.status_code == status.HTTP_403_FORBIDDEN
 
@@ -37,7 +37,7 @@ async def test_get_messages_with_fake_token(client: AsyncClient):
 async def test_get_transactions_with_fake_token(client: AsyncClient):
     """Test that GET /monitor/transactions rejects fake tokens."""
     response = await client.get(
-        "api/v1/monitor/transactions?flow_id=00000000-0000-0000-0000-000000000000",
+        "api/v1/monitor/transactions?flow_id=code-explorer-224",
         headers={"Authorization": "Bearer fake-token"},
     )
     # Langflow returns 401 for invalid Bearer tokens (JWT validation fails)
@@ -66,7 +66,7 @@ async def test_get_messages_with_valid_auth(client: AsyncClient, logged_in_heade
 async def test_get_transactions_with_valid_auth(client: AsyncClient, logged_in_headers):
     """Test that GET /monitor/transactions works with valid authentication."""
     response = await client.get(
-        "api/v1/monitor/transactions?flow_id=00000000-0000-0000-0000-000000000000", headers=logged_in_headers
+        "api/v1/monitor/transactions?flow_id=code-explorer-224", headers=logged_in_headers
     )
     # Should return 200 OK with pagination structure
     assert response.status_code == status.HTTP_200_OK

@@ -35,7 +35,7 @@ class TestWorkflowDeveloperAPIProtection:
         """Test GET workflow endpoint is allowed when developer API is enabled - job not found."""
         headers = {"x-api-key": created_api_key.api_key}
         response = await client.get(
-            "api/v2/workflows?job_id=550e8400-e29b-41d4-a716-446655440001",  # Non-existent job ID
+            "api/v2/workflows?job_id=code-explorer-224",  # Non-existent job ID
             headers=headers,
         )
 
@@ -79,7 +79,7 @@ class TestWorkflowDeveloperAPIProtection:
         # The endpoint should return 501 regardless of whether the job exists
         headers = {"x-api-key": created_api_key.api_key}
         response = await client.get(
-            "api/v2/workflows?job_id=550e8400-e29b-41d4-a716-446655440002",
+            "api/v2/workflows?job_id=code-explorer-224",
             headers=headers,
         )
 

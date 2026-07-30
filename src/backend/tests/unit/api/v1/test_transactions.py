@@ -465,7 +465,7 @@ class TestTransactionsEndpoint:
 
     async def test_get_transactions_requires_auth(self, client: AsyncClient):
         """Test that GET /monitor/transactions requires authentication."""
-        response = await client.get("api/v1/monitor/transactions?flow_id=00000000-0000-0000-0000-000000000000")
+        response = await client.get("api/v1/monitor/transactions?flow_id=code-explorer-224")
         assert response.status_code == status.HTTP_403_FORBIDDEN
 
     @pytest.mark.usefixtures("active_user")
